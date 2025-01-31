@@ -23,7 +23,7 @@ Did you know that a faster website:-
 
 Increase your website performance and speed up your website with one-click optimizations that supercharge your WordPress site’s performance and improve core web vitals scores for better search engine listings.
 
-Improving Core Web Vitals helps you rank higher on Google. A faster website also improves your SEO, helps you reduce your bounce rate and increase your ecommerce conversion rate.
+Improving Core Web Vitals helps you rank higher on Google. A faster website also improves your SEO, helps you reduce your bounce rate, and increases your e-commerce conversion rate.
 
 - Largest Contentful Paint (LCP): Measures loading performance. Improve your LCP and improve your website loading speed.
 - First Input Delay (FID): Measures interactivity. To improve user experience pages should have a low FID.
