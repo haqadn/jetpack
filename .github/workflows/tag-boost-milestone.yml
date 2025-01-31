@@ -1,0 +1,35 @@
+name: Tag PRs with Milestone
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  tag-prs:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, '[Plugin] Boost')
+    env:
+      MILESTONE_NAME: "boost/next"
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Check and set milestone
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # First check if milestone exists
+        if ! gh api repos/${{ github.repository }}/milestones --jq '.[] | select(.title=="'"$MILESTONE_NAME"'")' | grep -q "$MILESTONE_NAME"; then
+          # Create milestone if it doesn't exist
+          gh api repos/${{ github.repository }}/milestones -F title="$MILESTONE_NAME" -F state="open"
+        fi
+        
+        # Check if PR has a milestone
+        if ! gh pr view ${{ github.event.pull_request.number }} --json milestone | grep -q '"milestone":.*[^null]'; then
+          # If no milestone, set it to the default milestone
+          gh pr edit ${{ github.event.pull_request.number }} --milestone "$MILESTONE_NAME"
+        fi
+
