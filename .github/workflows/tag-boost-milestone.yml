@@ -1,11 +1,11 @@
-name: Tag PRs with Milestone
+name: Tag Boost PRs with milestone
 
 on:
   pull_request:
     types: [closed]
 
 jobs:
-  tag-prs:
+  tag-pr:
     runs-on: ubuntu-latest
     if: |
       github.event.pull_request.merged == true &&
@@ -32,10 +32,11 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        if ! gh pr view ${{ github.event.pull_request.number }} --json milestone | grep -q '"milestone":.*[^null]'; then
-          echo "Setting milestone $MILESTONE_NAME on PR #${{ github.event.pull_request.number }}"
-          gh pr edit ${{ github.event.pull_request.number }} --milestone "$MILESTONE_NAME"
+        milestone=$(gh pr view 3 --json milestone --jq '.milestone.title')
+        if [ "$milestone" = "null" ] || [ -z "$milestone" ]; then
+          echo "Setting milestone $MILESTONE_NAME on PR #3"
+          gh pr edit 3 --milestone "$MILESTONE_NAME"
         else
-          echo "PR already has a milestone set"
+          echo "PR already has milestone: $milestone"
         fi
 
