@@ -1,4 +1,4 @@
-name: Tag PRs with Milestone
+name: Tag Boost PRs with milestone
 
 on:
   pull_request:
