@@ -32,10 +32,10 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        milestone=$(gh pr view 3 --json milestone --jq '.milestone.title')
+        milestone=$(gh pr view ${{ github.event.pull_request.number }} --json milestone --jq '.milestone.title')
         if [ "$milestone" = "null" ] || [ -z "$milestone" ]; then
-          echo "Setting milestone $MILESTONE_NAME on PR #3"
-          gh pr edit 3 --milestone "$MILESTONE_NAME"
+          echo "Setting milestone $MILESTONE_NAME on PR #${{ github.event.pull_request.number }}"
+          gh pr edit ${{ github.event.pull_request.number }} --milestone "$MILESTONE_NAME"
         else
           echo "PR already has milestone: $milestone"
         fi
